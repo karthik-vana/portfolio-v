@@ -10,11 +10,18 @@
 
 ---
 <div align="center">
-   
-- [![Live-Demo](https://img.shields.io/badge/Live-Demo-100000?style=for-the-badge&logo=Live-Demo&logoColor=red)](https://portfolio-v-smoky.vercel.app/)
-- have look at my portfolio
+
+# 🌌 Personal Portfolio
+
+[![Live-Demo](https://img.shields.io/badge/Live--Demo-6A0DAD?style=for-the-badge&logo=vercel&logoColor=white)](https://portfolio-v-smoky.vercel.app/)
+
+<p>✨ Have a look at my interactive portfolio ✨</p>
+
+<!-- Animated GIF preview -->
+<img src="https://github.com/karthik-vana/portfolio-v/blob/main/assets/demo.gif" alt="Portfolio Demo" width="600"/>
 
 </div>
+
 
 ---
 
