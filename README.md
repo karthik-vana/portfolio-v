@@ -105,17 +105,6 @@ To save your changes and push them to the repository, follow these best practice
 
 ---
 
-## 🤝 Contributing
-
-Contributions are welcome! Please follow these steps:
-1. Fork the project.
-2. Create functionality branch (`git checkout -b feature/NewFeature`).
-3. Commit changes (`git commit -m 'Add NewFeature'`).
-4. Push to branch (`git push origin feature/NewFeature`).
-5. Open a Pull Request.
-
----
-
 ## 📝 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
