@@ -203,8 +203,8 @@ export const AboutSection = () => {
     const words = fullText.split(" ");
 
     return (
-        <section className="min-h-[60vh] flex items-center justify-center py-24 relative z-10">
-            <div className="max-w-4xl mx-auto px-6 text-center">
+        <section className="min-h-[50vh] md:min-h-[60vh] flex items-center justify-center py-12 md:py-24 relative z-10">
+            <div className="max-w-4xl mx-auto px-4 sm:px-6 text-center">
                 <motion.span
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -217,7 +217,7 @@ export const AboutSection = () => {
                     initial={{ opacity: 0, scale: 0.9 }}
                     whileInView={{ opacity: 1, scale: 1 }}
                     viewport={{ once: true }}
-                    className="text-4xl md:text-6xl font-syne font-bold text-white leading-tight mb-8"
+                    className="text-2xl sm:text-4xl md:text-6xl font-syne font-bold text-white leading-tight mb-4 sm:mb-8"
                 >
                     Engineering the <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400">Future</span> of Intelligence.
                 </motion.h2>
@@ -225,7 +225,7 @@ export const AboutSection = () => {
                 {/* Interactive Text Container */}
                 <motion.div
                     onMouseEnter={() => setIsHovered(true)}
-                    className="interactive-about p-10 rounded-3xl bg-white/5 border border-white/10 backdrop-blur-2xl shadow-[0_0_50px_rgba(100,100,255,0.05)] relative overflow-hidden group text-left cursor-none"
+                    className="interactive-about p-5 sm:p-8 md:p-10 rounded-2xl sm:rounded-3xl bg-white/5 border border-white/10 backdrop-blur-2xl shadow-[0_0_50px_rgba(100,100,255,0.05)] relative overflow-hidden group text-left cursor-none"
                     initial="hidden"
                     animate={isHovered ? "visible" : "hidden"}
                 >
@@ -267,7 +267,7 @@ export const AboutSection = () => {
                                         }
                                     }
                                 }}
-                                className="text-lg md:text-xl font-satoshi text-white/50 inline-block"
+                                className="text-sm sm:text-lg md:text-xl font-satoshi text-white/50 inline-block"
                             >
                                 {word}
                             </motion.span>
@@ -286,59 +286,191 @@ export const AboutSection = () => {
     );
 };
 
-export const EducationSection = () => (
-    <section className="py-24 px-6 relative z-10">
-        <div className="max-w-5xl mx-auto">
-            <div className="flex items-center gap-4 mb-16 justify-center">
-                <span className="w-12 h-[1px] bg-white/20"></span>
-                <h3 className="text-3xl font-bold font-syne text-white uppercase tracking-widest text-center">Academic Journey</h3>
-                <span className="w-12 h-[1px] bg-white/20"></span>
-            </div>
+export const EducationSection = () => {
+    // Animation variants for staggered reveal
+    const containerVariants = {
+        hidden: { opacity: 0 },
+        visible: {
+            opacity: 1,
+            transition: { staggerChildren: 0.3, delayChildren: 0.2 }
+        }
+    };
 
-            <div className="space-y-8">
-                {EDUCATION.map((edu, i) => (
+    const cardVariants = {
+        hidden: (i) => ({
+            opacity: 0,
+            x: i % 2 === 0 ? -60 : 60,
+            y: 30,
+            scale: 0.95,
+            filter: 'blur(8px)'
+        }),
+        visible: {
+            opacity: 1,
+            x: 0,
+            y: 0,
+            scale: 1,
+            filter: 'blur(0px)',
+            transition: {
+                type: 'spring',
+                stiffness: 100,
+                damping: 20,
+                mass: 0.8,
+                duration: 0.8
+            }
+        }
+    };
+
+    const logoVariants = {
+        hidden: { scale: 0, rotate: -20, opacity: 0 },
+        visible: {
+            scale: 1,
+            rotate: 0,
+            opacity: 1,
+            transition: { type: 'spring', stiffness: 200, damping: 15, delay: 0.2 }
+        }
+    };
+
+    const textVariants = {
+        hidden: { opacity: 0, y: 20, filter: 'blur(4px)' },
+        visible: {
+            opacity: 1,
+            y: 0,
+            filter: 'blur(0px)',
+            transition: { duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }
+        }
+    };
+
+    return (
+        <section className="py-12 md:py-24 px-4 sm:px-6 relative z-10">
+            <div className="max-w-5xl mx-auto">
+                {/* Section Header — slide up reveal */}
+                <motion.div
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: '-50px' }}
+                    transition={{ duration: 0.7, ease: 'easeOut' }}
+                    className="flex items-center gap-3 sm:gap-4 mb-8 md:mb-16 justify-center"
+                >
+                    <motion.span
+                        initial={{ scaleX: 0 }} whileInView={{ scaleX: 1 }}
+                        viewport={{ once: true }} transition={{ duration: 0.8, delay: 0.3 }}
+                        className="w-6 sm:w-12 h-[1px] bg-white/20 origin-right"
+                    />
+                    <h3 className="text-xl sm:text-2xl md:text-3xl font-bold font-syne text-white uppercase tracking-widest text-center">
+                        Academic Journey
+                    </h3>
+                    <motion.span
+                        initial={{ scaleX: 0 }} whileInView={{ scaleX: 1 }}
+                        viewport={{ once: true }} transition={{ duration: 0.8, delay: 0.3 }}
+                        className="w-6 sm:w-12 h-[1px] bg-white/20 origin-left"
+                    />
+                </motion.div>
+
+                {/* Timeline with cards */}
+                <motion.div
+                    variants={containerVariants}
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true, margin: '-80px' }}
+                    className="relative space-y-8"
+                >
+                    {/* Vertical timeline line */}
                     <motion.div
-                        key={i}
-                        initial={{ opacity: 0, y: 30 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ delay: i * 0.1 }}
-                        className="relative p-8 rounded-3xl bg-white/5 border border-white/10 hover:border-white/20 hover:bg-white/10 transition-all group overflow-hidden"
-                    >
-                        {/* Ambient Background Glow matching status */}
-                        <div className={`absolute top-0 right-0 w-[300px] h-[300px] bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity blur-3xl rounded-full translate-x-1/2 -translate-y-1/2 pointer-events-none`} />
+                        initial={{ scaleY: 0 }}
+                        whileInView={{ scaleY: 1 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 1.2, ease: 'easeOut', delay: 0.5 }}
+                        className="absolute left-6 sm:left-8 md:left-12 top-0 bottom-0 w-[1px] bg-gradient-to-b from-blue-500/40 via-green-500/30 to-transparent origin-top hidden md:block"
+                    />
 
-                        <div className="flex flex-col md:flex-row justify-between items-center gap-8 relative z-10">
+                    {EDUCATION.map((edu, i) => (
+                        <motion.div
+                            key={i}
+                            custom={i}
+                            variants={cardVariants}
+                            className="relative p-4 sm:p-6 md:p-8 rounded-2xl sm:rounded-3xl bg-white/[0.04] border border-white/10 hover:border-white/25 hover:bg-white/[0.08] transition-all duration-500 group overflow-hidden md:ml-16"
+                        >
+                            {/* Timeline dot */}
+                            <motion.div
+                                initial={{ scale: 0 }}
+                                whileInView={{ scale: 1 }}
+                                viewport={{ once: true }}
+                                transition={{ type: 'spring', stiffness: 300, delay: 0.4 + i * 0.2 }}
+                                className={`absolute -left-[2.35rem] sm:-left-[2.55rem] top-8 w-4 h-4 rounded-full border-2 ${edu.status === 'Pursuing' ? 'border-blue-400 bg-blue-400/30' : 'border-green-400 bg-green-400/30'} shadow-lg hidden md:block`}
+                            />
 
-                            {/* Logo & Info */}
-                            <div className="flex flex-col md:flex-row items-center md:items-start gap-6 text-center md:text-left">
-                                <div className="w-24 h-24 bg-white rounded-2xl p-3 flex-shrink-0 shadow-2xl shadow-black/50 border border-white/10 group-hover:scale-105 transition-transform duration-500">
-                                    <img src={edu.logo} alt={edu.school} className="w-full h-full object-contain mix-blend-multiply" />
+                            {/* Ambient glow on hover */}
+                            <div className={`absolute top-0 right-0 w-[400px] h-[400px] rounded-full pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-700 blur-3xl -translate-y-1/2 translate-x-1/3 ${edu.status === 'Pursuing' ? 'bg-blue-500/[0.06]' : 'bg-green-500/[0.06]'}`} />
+
+                            {/* Gradient line at top */}
+                            <motion.div
+                                initial={{ scaleX: 0 }}
+                                whileInView={{ scaleX: 1 }}
+                                viewport={{ once: true }}
+                                transition={{ duration: 0.8, delay: 0.3 + i * 0.15 }}
+                                className={`absolute top-0 left-0 right-0 h-[2px] origin-left ${edu.status === 'Pursuing' ? 'bg-gradient-to-r from-blue-500/60 via-blue-400/30 to-transparent' : 'bg-gradient-to-r from-green-500/60 via-green-400/30 to-transparent'}`}
+                            />
+
+                            <div className="flex flex-col md:flex-row justify-between items-center gap-4 sm:gap-8 relative z-10">
+                                {/* Logo & Info */}
+                                <div className="flex flex-col md:flex-row items-center md:items-start gap-4 sm:gap-6 text-center md:text-left">
+                                    <motion.div
+                                        variants={logoVariants}
+                                        whileHover={{ scale: 1.1, rotate: 3 }}
+                                        className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 bg-white rounded-xl sm:rounded-2xl p-2 sm:p-3 flex-shrink-0 shadow-2xl shadow-black/50 border border-white/10 transition-transform duration-500"
+                                    >
+                                        <img src={edu.logo} alt={edu.school} className="w-full h-full object-contain mix-blend-multiply" />
+                                    </motion.div>
+
+                                    <div className="space-y-2">
+                                        <motion.h4
+                                            variants={textVariants}
+                                            className="text-lg sm:text-2xl md:text-3xl font-bold text-white font-syne"
+                                        >
+                                            <span className="group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-white group-hover:to-white/50 transition-all duration-500">
+                                                {edu.degree}
+                                            </span>
+                                        </motion.h4>
+                                        <motion.p variants={textVariants} className="text-white/60 text-sm sm:text-lg font-light tracking-wide">
+                                            {edu.school}
+                                        </motion.p>
+                                        <motion.p variants={textVariants} className="font-mono text-xs sm:text-sm text-white/30">
+                                            {edu.year}
+                                        </motion.p>
+                                    </div>
                                 </div>
 
-                                <div className="space-y-2">
-                                    <h4 className="text-2xl md:text-3xl font-bold text-white group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-white group-hover:to-white/60 transition-all font-syne">{edu.degree}</h4>
-                                    <p className="text-white/60 text-lg font-light tracking-wide">{edu.school}</p>
-                                    <p className="font-mono text-sm text-white/30">{edu.year}</p>
-                                </div>
+                                {/* Status Badge — gentle pulse instead of blinking */}
+                                <motion.div
+                                    initial={{ opacity: 0, scale: 0.8 }}
+                                    whileInView={{ opacity: 1, scale: 1 }}
+                                    viewport={{ once: true }}
+                                    transition={{ type: 'spring', stiffness: 200, delay: 0.5 + i * 0.2 }}
+                                    whileHover={{ scale: 1.05 }}
+                                    className={`px-5 py-2 rounded-full border ${edu.color} backdrop-blur-md shadow-lg flex items-center gap-2`}
+                                >
+                                    {edu.status === "Pursuing" && (
+                                        <motion.span
+                                            animate={{ opacity: [0.4, 1, 0.4], scale: [0.85, 1.1, 0.85] }}
+                                            transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut' }}
+                                            className="inline-flex rounded-full h-2 w-2 bg-blue-400"
+                                        />
+                                    )}
+                                    {edu.status === "Completed" && (
+                                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" className="text-green-400">
+                                            <polyline points="20 6 9 17 4 12" />
+                                        </svg>
+                                    )}
+                                    <span className="font-bold text-sm tracking-uppercase uppercase">{edu.status}</span>
+                                </motion.div>
                             </div>
-
-                            {/* Status Badge */}
-                            <div className={`px-5 py-2 rounded-full border ${edu.color} backdrop-blur-md shadow-lg flex items-center gap-2`}>
-                                {edu.status === "Pursuing" && (
-                                    <span className="relative flex h-2 w-2">
-                                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
-                                        <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
-                                    </span>
-                                )}
-                                <span className="font-bold text-sm tracking-uppercase uppercase">{edu.status}</span>
-                            </div>
-                        </div>
-                    </motion.div>
-                ))}
+                        </motion.div>
+                    ))}
+                </motion.div>
             </div>
-        </div>
-    </section>
-);
+        </section>
+    );
+};
 
 export const SkillsSection = () => (
     <section className="py-24 px-4 md:px-6 relative z-10">
@@ -386,68 +518,178 @@ export const SkillsSection = () => (
 export const ExperienceSection = () => {
     const [selectedId, setSelectedId] = useState(null);
 
-    return (
-        <section className="py-24 px-6 relative z-10 min-h-screen flex flex-col justify-center">
-            <div className="max-w-6xl mx-auto w-full">
-                <div className="flex items-center gap-4 mb-20 justify-center">
-                    <span className="w-12 h-[1px] bg-white/20"></span>
-                    <h3 className="text-3xl font-bold font-syne text-white uppercase tracking-widest text-center">Professional Experience</h3>
-                    <span className="w-12 h-[1px] bg-white/20"></span>
-                </div>
+    const containerVariants = {
+        hidden: { opacity: 0 },
+        visible: {
+            opacity: 1,
+            transition: { staggerChildren: 0.15, delayChildren: 0.1 }
+        }
+    };
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 relative">
+    const cardVariants = {
+        hidden: {
+            opacity: 0,
+            y: 60,
+            scale: 0.92,
+            filter: 'blur(6px)'
+        },
+        visible: {
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            filter: 'blur(0px)',
+            transition: {
+                type: 'spring',
+                stiffness: 80,
+                damping: 18,
+                mass: 0.9
+            }
+        }
+    };
+
+    // Color mapping for each experience
+    const accentColors = ['#3B82F6', '#A855F7', '#F59E0B', '#10B981'];
+
+    return (
+        <section className="py-12 md:py-24 px-4 sm:px-6 relative z-10 min-h-[auto] md:min-h-screen flex flex-col justify-center">
+            <div className="max-w-6xl mx-auto w-full">
+                {/* Section Header */}
+                <motion.div
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: '-50px' }}
+                    transition={{ duration: 0.7, ease: 'easeOut' }}
+                    className="flex items-center gap-3 sm:gap-4 mb-10 md:mb-20 justify-center"
+                >
+                    <motion.span
+                        initial={{ scaleX: 0 }} whileInView={{ scaleX: 1 }}
+                        viewport={{ once: true }} transition={{ duration: 0.8, delay: 0.3 }}
+                        className="w-6 sm:w-12 h-[1px] bg-white/20 origin-right"
+                    />
+                    <h3 className="text-xl sm:text-2xl md:text-3xl font-bold font-syne text-white uppercase tracking-widest text-center">
+                        Professional Experience
+                    </h3>
+                    <motion.span
+                        initial={{ scaleX: 0 }} whileInView={{ scaleX: 1 }}
+                        viewport={{ once: true }} transition={{ duration: 0.8, delay: 0.3 }}
+                        className="w-6 sm:w-12 h-[1px] bg-white/20 origin-left"
+                    />
+                </motion.div>
+
+                <motion.div
+                    variants={containerVariants}
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true, margin: '-60px' }}
+                    className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 md:gap-8 relative"
+                >
                     {EXPERIENCE.map((exp, i) => (
                         <motion.div
                             key={i}
+                            variants={cardVariants}
                             layoutId={`card-${i}`}
                             onClick={() => setSelectedId(i === selectedId ? null : i)}
-                            className={`relative p-6 rounded-3xl bg-white/5 border border-white/10 ${exp.border} transition-all cursor-pointer overflow-hidden group hover:bg-white/10`}
-                            initial={{ opacity: 0, y: 50 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            transition={{ delay: i * 0.1 }}
+                            className={`relative p-4 sm:p-5 md:p-6 rounded-2xl sm:rounded-3xl bg-white/[0.04] border border-white/10 transition-all duration-500 cursor-pointer overflow-hidden group hover:bg-white/[0.08] hover:border-white/25 hover:shadow-2xl hover:shadow-black/30`}
+                            whileHover={{ y: -4 }}
                         >
-                            {/* Gradient Background */}
-                            <div className={`absolute inset-0 bg-gradient-to-br ${exp.color} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
+                            {/* Top gradient accent line — scroll reveal */}
+                            <motion.div
+                                initial={{ scaleX: 0 }}
+                                whileInView={{ scaleX: 1 }}
+                                viewport={{ once: true }}
+                                transition={{ duration: 0.8, delay: 0.2 + i * 0.1 }}
+                                className="absolute top-0 left-0 right-0 h-[2px] origin-left"
+                                style={{ background: `linear-gradient(90deg, ${accentColors[i]}80, ${accentColors[i]}20, transparent)` }}
+                            />
 
-                            <div className="relative z-10 flex items-start gap-6">
-                                {/* Logo Box */}
+                            {/* Gradient Background on hover */}
+                            <div className={`absolute inset-0 bg-gradient-to-br ${exp.color} opacity-0 group-hover:opacity-100 transition-opacity duration-700`} />
+
+                            {/* Experience number badge */}
+                            <motion.div
+                                initial={{ opacity: 0, scale: 0 }}
+                                whileInView={{ opacity: 1, scale: 1 }}
+                                viewport={{ once: true }}
+                                transition={{ type: 'spring', stiffness: 300, delay: 0.3 + i * 0.1 }}
+                                className="absolute top-3 right-3 w-7 h-7 rounded-full flex items-center justify-center text-[10px] font-bold font-mono opacity-20 group-hover:opacity-50 transition-opacity border border-white/10"
+                                style={{ color: accentColors[i] }}
+                            >
+                                0{i + 1}
+                            </motion.div>
+
+                            <div className="relative z-10 flex items-start gap-3 sm:gap-4 md:gap-6">
+                                {/* Logo Box with spring entrance */}
                                 <motion.div
-                                    className="w-20 h-20 bg-white rounded-2xl p-2 flex-shrink-0 shadow-lg border border-white/20 overflow-hidden"
+                                    initial={{ scale: 0, rotate: -15 }}
+                                    whileInView={{ scale: 1, rotate: 0 }}
+                                    viewport={{ once: true }}
+                                    transition={{ type: 'spring', stiffness: 200, damping: 15, delay: 0.15 + i * 0.1 }}
                                     whileHover={{ scale: 1.1, rotate: 5 }}
+                                    className="w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20 bg-white rounded-xl sm:rounded-2xl p-1.5 sm:p-2 flex-shrink-0 shadow-lg border border-white/20 overflow-hidden"
                                 >
                                     <img src={exp.logo} alt={exp.company} className="w-full h-full object-contain" />
                                 </motion.div>
 
                                 <div className="flex-1">
-                                    <span className="inline-block px-3 py-1 rounded-full bg-black/50 border border-white/10 text-xs text-white/60 mb-2 backdrop-blur-md">
+                                    <motion.span
+                                        initial={{ opacity: 0, x: -15 }}
+                                        whileInView={{ opacity: 1, x: 0 }}
+                                        viewport={{ once: true }}
+                                        transition={{ duration: 0.5, delay: 0.25 + i * 0.1 }}
+                                        className="inline-block px-3 py-1 rounded-full bg-black/50 border border-white/10 text-xs text-white/60 mb-2 backdrop-blur-md"
+                                    >
                                         {exp.period}
-                                    </span>
-                                    <h4 className="text-xl font-bold text-white font-syne leading-tight">{exp.role}</h4>
-                                    <h5 className="text-white/60 text-sm mt-1">{exp.company}</h5>
-                                    <div className="mt-4 flex items-center gap-2 text-xs text-purple-300 font-mono uppercase tracking-widest opacity-80 group-hover:opacity-100">
+                                    </motion.span>
+                                    <motion.h4
+                                        initial={{ opacity: 0, y: 10 }}
+                                        whileInView={{ opacity: 1, y: 0 }}
+                                        viewport={{ once: true }}
+                                        transition={{ duration: 0.5, delay: 0.3 + i * 0.1 }}
+                                        className="text-base sm:text-lg md:text-xl font-bold text-white font-syne leading-tight"
+                                    >
+                                        {exp.role}
+                                    </motion.h4>
+                                    <motion.h5
+                                        initial={{ opacity: 0 }}
+                                        whileInView={{ opacity: 1 }}
+                                        viewport={{ once: true }}
+                                        transition={{ duration: 0.5, delay: 0.35 + i * 0.1 }}
+                                        className="text-white/60 text-sm mt-1"
+                                    >
+                                        {exp.company} · {exp.location}
+                                    </motion.h5>
+                                    <div className="mt-4 flex items-center gap-2 text-xs font-mono uppercase tracking-widest opacity-60 group-hover:opacity-100 transition-opacity"
+                                        style={{ color: accentColors[i] }}
+                                    >
                                         {selectedId === i ? "Click to Collapse" : "Click to Explore"} <span className="text-lg">↗</span>
                                     </div>
                                 </div>
                             </div>
 
+                            {/* Expandable detail section */}
                             <AnimatePresence>
                                 {selectedId === i && (
                                     <motion.div
                                         initial={{ opacity: 0, height: 0, marginTop: 0 }}
                                         animate={{ opacity: 1, height: 'auto', marginTop: 24 }}
                                         exit={{ opacity: 0, height: 0, marginTop: 0 }}
+                                        transition={{ type: 'spring', stiffness: 150, damping: 20 }}
                                         className="relative z-10 border-t border-white/10 pt-6"
                                     >
+                                        <p className="text-white/50 text-sm mb-4 italic">{exp.desc}</p>
                                         <ul className="space-y-3">
                                             {exp.points.map((point, idx) => (
                                                 <motion.li
                                                     key={idx}
-                                                    initial={{ x: -20, opacity: 0 }}
-                                                    animate={{ x: 0, opacity: 1 }}
-                                                    transition={{ delay: idx * 0.1 }}
+                                                    initial={{ x: -30, opacity: 0, filter: 'blur(4px)' }}
+                                                    animate={{ x: 0, opacity: 1, filter: 'blur(0px)' }}
+                                                    transition={{ delay: idx * 0.15, type: 'spring', stiffness: 120 }}
                                                     className="flex items-start gap-3 text-white/80 text-sm md:text-base leading-relaxed"
                                                 >
-                                                    <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-cyan-400 flex-shrink-0 shadow-[0_0_8px_cyan]" />
+                                                    <span
+                                                        className="mt-1.5 w-1.5 h-1.5 rounded-full flex-shrink-0"
+                                                        style={{ backgroundColor: accentColors[i], boxShadow: `0 0 8px ${accentColors[i]}` }}
+                                                    />
                                                     {point}
                                                 </motion.li>
                                             ))}
@@ -457,7 +699,7 @@ export const ExperienceSection = () => {
                             </AnimatePresence>
                         </motion.div>
                     ))}
-                </div>
+                </motion.div>
             </div>
         </section>
     );
@@ -518,12 +760,12 @@ export const CertificationsSection = () => {
     const row2 = CERTIFICATIONS.slice(half);
 
     return (
-        <section className="py-24 relative z-10 overflow-hidden">
+        <section className="py-12 md:py-24 relative z-10 overflow-hidden">
             <div className="max-w-full mx-auto text-center">
-                <div className="flex items-center gap-4 mb-12 justify-center px-6">
-                    <span className="w-12 h-[1px] bg-white/20"></span>
-                    <h3 className="text-xl font-bold font-syne text-white uppercase tracking-widest text-center">Credentials</h3>
-                    <span className="w-12 h-[1px] bg-white/20"></span>
+                <div className="flex items-center gap-3 sm:gap-4 mb-8 md:mb-12 justify-center px-4 sm:px-6">
+                    <span className="w-6 sm:w-12 h-[1px] bg-white/20"></span>
+                    <h3 className="text-lg sm:text-xl font-bold font-syne text-white uppercase tracking-widest text-center">Credentials</h3>
+                    <span className="w-6 sm:w-12 h-[1px] bg-white/20"></span>
                 </div>
 
                 <div className="flex flex-col gap-6">

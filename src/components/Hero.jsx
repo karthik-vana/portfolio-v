@@ -99,7 +99,7 @@ const Hero = () => {
   };
 
   return (
-    <div className="relative h-screen w-full overflow-hidden bg-grid-white/[0.02]">
+    <div className="relative h-[100dvh] w-full overflow-hidden bg-grid-white/[0.02]">
       {/* Background Videos Container */}
       <div className="absolute inset-0 z-0">
         {/* Video 1 */}
@@ -142,54 +142,12 @@ const Hero = () => {
       </div>
 
       {/* Content Frame */}
-      <div className="relative z-20 h-full flex flex-col justify-between p-8 md:p-16 max-w-7xl mx-auto">
+      <div className="relative z-20 h-full flex flex-col justify-between p-5 sm:p-8 md:p-16 max-w-7xl mx-auto">
         {/* Top Bar */}
         <div className="flex justify-between items-start">
-          <div className="flex flex-col gap-4">
-            {/* Logo Video Menu - Click to Reset Sequence */}
-            <button
-              onClick={() => {
-                // RESET LOGIC
-                setCurrentVideo(1);
-                // We don't force unmute here to respect user choice, 
-                // but we DO ensure it plays if enabled.
+          <div>{/* Spacer */}</div>
 
-                // Reset Video 1
-                if (video1Ref.current) {
-                  video1Ref.current.currentTime = 0;
-                  video1Ref.current.play().catch(() => { });
-                }
-
-                // Reset Audio
-                if (audioRef.current) {
-                  audioRef.current.currentTime = 0;
-                  audioRef.current.volume = 1; // Ensure volume is up
-                  // Only play if not muted state
-                  if (!isMuted) audioRef.current.play().catch(() => { });
-                }
-              }}
-              className="relative group cursor-pointer"
-            >
-              <video
-                src="/logo.mp4"
-                autoPlay
-                loop
-                muted
-                playsInline
-                className="w-16 h-16 object-cover rounded-full border border-white/10 hover:border-white/50 transition-colors"
-              />
-              {/* Tooltip */}
-              <span className="absolute left-full top-1/2 -translate-y-1/2 ml-4 text-white/50 text-xs tracking-widest opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
-                RESTART
-              </span>
-            </button>
-            {/* Name */}
-            <div className="text-white font-bold tracking-tighter text-xl mix-blend-difference hidden md:block">
-              KARTHIK VANA
-            </div>
-          </div>
-
-          <div className="flex flex-col items-end gap-2 text-sm md:text-base font-satoshi text-white/90">
+          <div className="flex flex-col items-end gap-1.5 sm:gap-2 text-xs sm:text-sm md:text-base font-satoshi text-white/90">
             <a
               href="https://www.linkedin.com/in/karthik-vana/"
               target="_blank"
@@ -212,13 +170,13 @@ const Hero = () => {
         </div>
 
         {/* Main Content */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 translate-y-[-10%]">
-          <h1 className={`${fonts.header} text-6xl md:text-9xl font-bold leading-none tracking-tighter text-white mix-blend-overlay`}>
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 sm:gap-8 translate-y-[-10%]">
+          <h1 className={`${fonts.header} text-4xl sm:text-6xl md:text-8xl lg:text-9xl font-bold leading-none tracking-tighter text-white mix-blend-overlay`}>
             AI/ML<br />ENGINEER
           </h1>
 
-          <div className="max-w-xs md:max-w-sm flex flex-col gap-4">
-            <p className={`${fonts.body} text-lg md:text-xl text-gray-200 leading-relaxed font-light`}>
+          <div className="max-w-xs md:max-w-sm flex flex-col gap-2 sm:gap-4">
+            <p className={`${fonts.body} text-sm sm:text-lg md:text-xl text-gray-200 leading-relaxed font-light`}>
               Building intelligent systems using advanced orchestration and state-of-the-art models.
             </p>
 

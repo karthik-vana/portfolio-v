@@ -1,24 +1,55 @@
 @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Using CDN for Satoshi as local file fallback issues were reported */
+/* Satoshi font override */
 @font-face {
   font-family: 'Satoshi';
-  src: url('https://api.fontshare.com/v2/css?f[]=satoshi@900,700,500,301,701,300,501,401,901,400,2,1&display=swap'); 
+  src: url('https://api.fontshare.com/v2/css?f[]=satoshi@900,700,500,301,701,300,501,401,901,400,2,1&display=swap');
+}
+
+/* ═══ Global Reset & Defaults ═══ */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  scroll-behavior: smooth;
 }
 
 body {
   @apply bg-black text-white font-satoshi overflow-x-hidden;
+  line-height: 1.6;
 }
 
 h1, h2, h3, h4, h5, h6 {
   @apply font-syne;
 }
 
-/* Animations */
+/* ═══ Performance: GPU acceleration for animated elements ═══ */
+.will-change-transform {
+  will-change: transform;
+}
+
+.gpu-accelerated {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* ═══ Smooth Transitions Global ═══ */
+img, video {
+  max-width: 100%;
+  height: auto;
+}
+
+/* ═══ Animations ═══ */
 @keyframes slide-horizontal {
   0% { transform: translateX(0); }
   100% { transform: translateX(-50%); }
@@ -34,11 +65,26 @@ h1, h2, h3, h4, h5, h6 {
 @keyframes music-bar-3 { 0%,100%{height:12px} 50%{height:24px} }
 
 @keyframes spin-slow {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 
-/* Scrollbar Hide */
+@keyframes float-gentle {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 20px rgba(6,182,212,0.15); }
+  50% { box-shadow: 0 0 40px rgba(6,182,212,0.3); }
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(200%); }
+}
+
+/* ═══ Scrollbar Hide ═══ */
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
@@ -47,7 +93,7 @@ h1, h2, h3, h4, h5, h6 {
   scrollbar-width: none;
 }
 
-/* Lenis */
+/* ═══ Lenis ═══ */
 html.lenis, html.lenis body {
   height: auto;
 }
@@ -66,4 +112,98 @@ html.lenis, html.lenis body {
 
 .lenis.lenis-scrolling iframe {
   pointer-events: none;
+}
+
+/* ═══ Light Mode Hack ═══ */
+body.light-mode {
+  filter: invert(1) hue-rotate(180deg) brightness(1.2);
+  background-color: #fafafa !important;
+}
+
+body.light-mode img,
+body.light-mode video,
+body.light-mode .jarvis-chat {
+  filter: invert(1) hue-rotate(180deg);
+}
+
+body.light-mode .jarvis-chat {
+  box-shadow: 0 0 50px rgba(0,0,0,0.1);
+}
+
+/* ═══ RESPONSIVE UTILITIES ═══ */
+
+/* Mobile-first touch targets */
+@media (max-width: 640px) {
+  button, a, [role="button"] {
+    min-height: 38px;
+    min-width: 38px;
+  }
+
+  /* Reduce motion on mobile for performance */
+  .reduce-motion-mobile {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Tablet adjustments */
+@media (min-width: 641px) and (max-width: 1024px) {
+  .tablet-padding {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
+/* Safe areas for notched devices (iPhone X+) */
+@supports (padding: max(0px)) {
+  .safe-area-padding {
+    padding-left: max(1rem, env(safe-area-inset-left));
+    padding-right: max(1rem, env(safe-area-inset-right));
+    padding-bottom: max(1rem, env(safe-area-inset-bottom));
+  }
+}
+
+/* ═══ PERFORMANCE OPTIMIZATIONS ═══ */
+
+/* Reduce paint complexity for frequently animated elements */
+.jarvis-chat {
+  contain: layout style;
+}
+
+/* Optimize large content areas */
+section {
+  contain: layout;
+}
+
+/* Prevent layout shifts from images */
+img {
+  content-visibility: auto;
+}
+
+/* Smooth 60fps animations */
+@media (prefers-reduced-motion: no-preference) {
+  .smooth-transition {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+}
+
+/* Respect user preference for reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ═══ Selection Style ═══ */
+::selection {
+  background: rgba(6, 182, 212, 0.3);
+  color: #ffffff;
+}
+
+::-moz-selection {
+  background: rgba(6, 182, 212, 0.3);
+  color: #ffffff;
 }

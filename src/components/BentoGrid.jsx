@@ -91,10 +91,14 @@ const IntroCard = () => {
                 )}
             </form>
 
-            <div className="absolute top-0 right-0 opacity-10 pointer-events-none p-4">
-                <svg width="150" height="150" viewBox="0 0 24 24" fill="currentColor">
-                    <circle cx="12" cy="12" r="10" />
-                </svg>
+            <div className="absolute top-4 right-4 md:top-6 md:right-6">
+                <div className="w-28 h-28 md:w-36 md:h-36 rounded-full overflow-hidden border-2 border-white/20 shadow-lg shadow-blue-500/10 hover:shadow-blue-500/30 hover:border-white/40 transition-all duration-500 hover:scale-105">
+                    <img
+                        src="/profile_photo.jpg"
+                        alt="Karthik Vana"
+                        className="w-full h-full object-cover object-top"
+                    />
+                </div>
             </div>
         </div>
     );

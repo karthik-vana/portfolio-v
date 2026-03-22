@@ -366,6 +366,10 @@ const Cursor = () => {
                 @media (min-width: 768px) {
                     body, a, button, inputElement, textElement, .interactive { cursor: none !important; }
                     * { cursor: none !important; }
+                    /* Restore cursor on Jarvis chat interface */
+                    .jarvis-chat, .jarvis-chat * { cursor: auto !important; }
+                    .jarvis-chat input, .jarvis-chat textarea { cursor: text !important; }
+                    .jarvis-chat button, .jarvis-chat a { cursor: pointer !important; }
                 }
             `}</style>
             <canvas
