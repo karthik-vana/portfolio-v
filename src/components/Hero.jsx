@@ -21,7 +21,7 @@ const Hero = () => {
   useEffect(() => {
     // Video 1 Autoplay
     if (video1Ref.current) {
-      video1Ref.current.play().catch(e => console.log("Video auto-play blocked", e));
+      video1Ref.current.play().catch(() => {});
     }
 
     // Audio Autoplay
@@ -32,8 +32,7 @@ const Hero = () => {
 
         const playPromise = audioRef.current.play();
         if (playPromise !== undefined) {
-          playPromise.catch(error => {
-            console.log("Audio autoplay prevented. Waiting for interaction.", error);
+          playPromise.catch(() => {
             // Optional fallback: User hasn't interacted yet.
             setIsMuted(true);
           });
@@ -74,7 +73,7 @@ const Hero = () => {
     // Play Video 2
     if (video2Ref.current) {
       video2Ref.current.currentTime = 0;
-      video2Ref.current.play().catch(e => console.log("V2 play error", e));
+      video2Ref.current.play().catch(() => {});
     }
   };
 
