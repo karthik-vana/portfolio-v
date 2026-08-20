@@ -104,22 +104,24 @@ const IntroCard = () => {
     );
 };
 
-const ToolsMarquee = () => {
-    const tools = [
-        { name: "React", src: "/react.svg" },
-        { name: "Vite", src: "/vite.svg" },
-        { name: "Framer", src: "/framer_logo_icon_169149.webp" },
-        { name: "Spline", src: "/spline_logo.webp" },
-        { name: "Ollama", src: "/ollama-icon.webp", invert: true },
-        { name: "Groq", src: "/groq_logo.webp" },
-        { name: "HuggingFace", src: "/huggingface-color.webp" },
-        { name: "Antigravity", src: "/antigravity.webp" },
-    ];
+const tools = [
+    { name: "React", src: "/react.svg" },
+    { name: "Vite", src: "/vite.svg" },
+    { name: "Framer", src: "/framer_logo_icon_169149.webp" },
+    { name: "Spline", src: "/spline_logo.webp" },
+    { name: "Ollama", src: "/ollama-icon.webp", invert: true },
+    { name: "Groq", src: "/groq_logo.webp" },
+    { name: "HuggingFace", src: "/huggingface-color.webp" },
+    { name: "Antigravity", src: "/antigravity.webp" },
+];
 
+const duplicatedTools = [...tools, ...tools];
+
+const ToolsMarquee = () => {
     return (
         <div className="flex items-center h-full relative overflow-hidden bg-white/5 w-full">
             <div className="flex gap-8 md:gap-12 items-center animate-marquee whitespace-nowrap px-4 md:px-12 w-full">
-                {[...tools, ...tools].map((tool, i) => (
+                {duplicatedTools.map((tool, i) => (
                     <div key={i} className="flex flex-col items-center gap-2 opacity-70 hover:opacity-100 transition-opacity">
                         <img
                             src={tool.src}
