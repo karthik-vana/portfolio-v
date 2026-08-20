@@ -24,8 +24,15 @@ html {
   scroll-behavior: smooth;
 }
 
+:root {
+  --bg-color: #000000;
+  --text-color: #ffffff;
+}
+
 body {
-  @apply bg-black text-white font-satoshi overflow-x-hidden;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  @apply font-satoshi overflow-x-hidden;
   line-height: 1.6;
 }
 
@@ -114,20 +121,10 @@ html.lenis, html.lenis body {
   pointer-events: none;
 }
 
-/* ═══ Light Mode Hack ═══ */
+/* ═══ Light Mode ═══ */
 body.light-mode {
-  filter: invert(1) hue-rotate(180deg) brightness(1.2);
-  background-color: #fafafa !important;
-}
-
-body.light-mode img,
-body.light-mode video,
-body.light-mode .jarvis-chat {
-  filter: invert(1) hue-rotate(180deg);
-}
-
-body.light-mode .jarvis-chat {
-  box-shadow: 0 0 50px rgba(0,0,0,0.1);
+  --bg-color: #fafafa;
+  --text-color: #000000;
 }
 
 /* ═══ RESPONSIVE UTILITIES ═══ */
